@@ -10,7 +10,7 @@ export default function HomePage(props) {
         <div className='min-h-screen bg-slate-50'>
             <Head title={props.title} />
             <div className='sticky top-0 z-50 bg-slate-50'>
-                <Navbar />
+                <Navbar user = {props.auth.user}/>
             </div>
             <div className='m-20 flex justify-center items-center flex-col lg:flex-row lg:flex-wrap  lg:items-stretch  gap-4 '>
                 <Newlists news={props.news.data} />

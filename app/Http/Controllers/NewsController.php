@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Resources\NewsCollection;
 use App\Models\News;
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+
 
 class NewsController extends Controller
 {
@@ -16,7 +19,7 @@ class NewsController extends Controller
     {
         $news = new NewsCollection(News::paginate(8));
         // $news = News::all();
-        return Inertia::render('HomePage',[
+        return Inertia::render('HomePage', [
             'title' => 'NewsPagee',
             'description' => 'Welkam to newspagee',
             'news' => $news,
@@ -31,12 +34,17 @@ class NewsController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $news = new News();
+        $news->title = $request->title;
+        $news->description = $request->description;
+        $news->category = $request->category;
+        $news->author = auth('web')->user()->email;
+        $news->save();
+        return redirect()->route('dashboard')->with('flash', ['message' => 'Berhasil menambahkan']);
+
+
     }
 
     /**
